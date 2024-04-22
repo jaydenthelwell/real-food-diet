@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Real Food App{% endblock %}
+
+{% block content %}
+    <h2>Welcome to the Real Food App!</h2>
+    <p>This is the index page.</p>
+    <p><a href="{{ url_for('create_meal') }}">Create a Meal</a></p>
+{% endblock %}

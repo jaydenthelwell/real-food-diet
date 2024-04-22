@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Real Food App{% endblock %}
+
+{% block content %}
+<h1>Create a Meal</h1>
+<form action="{{ url_for('create_meal') }}" method="post">
+    <label for="ingredient">Select an Ingredient:</label>
+    <select name="ingredient" id="ingredient">
+        {% for item in predefined_food_items %}
+            <option value="{{ item.name }}">{{ item.name }}</option>
+        {% endfor %}
+    </select>
+    <label for="weight">Weight (grams):</label>
+    <input type="text" id="weight" name="weight">
+    <input type="submit" value="Add Ingredient">
+</form>
+<h2>Meal Summary</h2>
+<ul>
+    {% for meal in meal_list %}
+        <li>{{ meal.name }}:
+            <ul>
+                {% for ingredient in meal.ingredients %}
+                    <li>{{ ingredient.name }} - {{ ingredient.weight }}g</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
