@@ -1,6 +1,6 @@
 anyio==3.3.0
 appnope==0.1.2
-archspec==0.3.0
+archspec==0.2.3
 argon2-cffi==20.1.0
 argon2-cffi-bindings==21.0.0.post3
 asttokens==2.0.5
