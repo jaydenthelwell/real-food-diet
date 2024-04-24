@@ -1,3 +1,4 @@
+anyio @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_646d7rz2z6/croot/anyio_1706220176177/work
 appnope @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/appnope_1699320997592/work
 archspec @ file:///croot/archspec_1709217642129/work
 argon2-cffi @ file:///opt/conda/conda-bld/argon2-cffi_1645000214183/work
