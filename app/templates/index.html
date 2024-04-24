@@ -1,9 +1,43 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css')}}" />
+    <title>Real Food App</title>
+</head>
+<body>
+    <h1>Welcome to Real Food</h1>
 
-{% block title %}Home - Real Food App{% endblock %}
+    <form action="/" method="post">
+        <!-- <label for="meal_name">Meal Name:</label><br>
+        <input type="text" id="meal_name" name="meal_name"><br> -->
 
-{% block content %}
-    <h2>Welcome to the Real Food App!</h2>
-    <p>This is the index page.</p>
-    <p><a href="{{ url_for('create_meal') }}">Create a Meal</a></p>
-{% endblock %}
+        <label for="ingredient">Select Ingredient you want to add:</label><br>
+        <select id="ingredient" name="ingredient">
+            {% for food_item in food_items %}
+                <option value="{{ food_item }}">{{ food_item }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="weight">Ingredient Weight (grams):</label><br>
+        <input type="text" id="weight" name="weight"><br><br>
+
+        <input type="submit" value="Add Ingredient">
+    </form>
+
+    <h2>Ingredients:</h2>
+    <ul>
+        {% for ingredient in ingredients %}
+            <li>{{ ingredient.name }} - Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }} <a href="/remove_ingredient/{{ loop.index }}">Remove</a></li>
+        {% endfor %}
+    </ul>
+
+    <form action="/create_meal" method="post">
+      <label for="meal_name">Meal Name:</label><br>
+      <input type="text" id="meal_name" name="meal_name"><br>
+      <input type="submit" value="Create Meal">
+  </form>
+</body>
+</html>

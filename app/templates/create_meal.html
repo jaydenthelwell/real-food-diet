@@ -1,30 +1,37 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css')}}" />
+    <title>Add Meal</title>
+</head>
+<body>
+    <h1>Add Meal</h1>
 
-{% block title %}Home - Real Food App{% endblock %}
+    <form action="/add_meal" method="post">
+        <label for="meal_name">Meal Name:</label><br>
+        <input type="text" id="meal_name" name="meal_name"><br>
 
-{% block content %}
-<h1>Create a Meal</h1>
-<form action="{{ url_for('create_meal') }}" method="post">
-    <label for="ingredient">Select an Ingredient:</label>
-    <select name="ingredient" id="ingredient">
-        {% for item in predefined_food_items %}
-            <option value="{{ item.name }}">{{ item.name }}</option>
+        <label for="ingredient">Select Ingredient:</label><br>
+        <select id="ingredient" name="ingredient">
+            {% for food_item in food_items %}
+                <option value="{{ food_item }}">{{ food_item }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="weight">Ingredient Weight (grams):</label><br>
+        <input type="text" id="weight" name="weight"><br><br>
+
+        <input type="submit" value="Add Ingredient">
+    </form>
+
+    <h2>Ingredients Added</h2>
+    <ul>
+        {% for meal in meal_list %}
+            <li>{{ meal.name }} - Total Calories: {{ meal.total_calories }}, Total Protein: {{ meal.total_protein }}, Total Carbohydrates: {{ meal.total_carbohydrates }}, Total Fats: {{ meal.total_fats }}</li>
         {% endfor %}
-    </select>
-    <label for="weight">Weight (grams):</label>
-    <input type="text" id="weight" name="weight">
-    <input type="submit" value="Add Ingredient">
-</form>
-<h2>Meal Summary</h2>
-<ul>
-    {% for meal in meal_list %}
-        <li>{{ meal.name }}:
-            <ul>
-                {% for ingredient in meal.ingredients %}
-                    <li>{{ ingredient.name }} - {{ ingredient.weight }}g</li>
-                {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
-{% endblock %}
+    </ul>
+</body>
+</html>

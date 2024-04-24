@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css')}}" />
+    <title>Real Food App</title>
+</head>
+<body>
+    <form action="/add_ingredient" method="post">
+      <!-- <label for="meal_name">Meal Name:</label><br>
+      <input type="text" id="meal_name" name="meal_name"><br> -->
+
+      <label for="ingredient">Select Ingredient you want to add:</label><br>
+      <select id="ingredient" name="ingredient">
+          {% for food_item in food_items %}
+              <option value="{{ food_item }}">{{ food_item }}</option>
+          {% endfor %}
+      </select><br>
+
+      <label for="weight">Ingredient Weight (grams):</label><br>
+      <input type="text" id="weight" name="weight"><br><br>
+
+      <input type="submit" value="Add Ingredient">
+  </form>
+
+  <h2>Ingredients:</h2>
+  <ul>
+      {% for ingredient in ingredients %}
+          <li>{{ ingredient.name }} - Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }}</li>
+      {% endfor %}
+  </ul>
+
+  <form action="/create_meal" method="post">
+      <input type="submit" value="Create Meal">
+  </form>
+</body>
+</html>

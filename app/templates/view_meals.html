@@ -1,0 +1,29 @@
+<body>
+  <h1>View Meals</h1>
+  <ul>
+      {% for meal in meal_list %}
+          <li>{{ meal.name }}</li>
+          <ul>
+              {% for ingredient in meal.ingredients %}
+                  <li>{{ ingredient.name }} - Weight: {{ ingredient.weight }}g, Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }}</li>
+              {% endfor %}
+              <li>Total Calories - {{ total_calories }}</li>
+              <li>Total Protein - {{ total_protein }}</li>
+              <li>Total Carbohydrates - {{ total_carbohydrates }}</li>
+              <li>Total Fats - {{ total_fats }}</li>
+          </ul>
+          <form action="/score" method="post">
+              <input type="hidden" name="total_calories" value="{{ total_calories }}">
+              <input type="hidden" name="gender" value="">
+              <input type="hidden" name="age" value="">
+              <input type="hidden" name="activity_level" value="">
+              <input type="submit" value="Get Your Score">
+          </form>
+      {% endfor %}
+  </ul>
+  <p>Would you like to get your score for this meal?</p>
+  <p>{{ protein_message }}</p>
+  <p>{{ carb_message }}</p>
+  <p>{{ fats_message }}</p>
+</body>
+</html>
