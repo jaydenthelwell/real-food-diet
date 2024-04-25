@@ -1,6 +1,7 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from diet_app import Meal, FoodItem, predefined_food_items, food_items_dict
-from flask import jsonify
+app = Flask(__name__, static_url_path='/static')
 
 app = Flask(__name__)
 
@@ -467,8 +468,4 @@ def score():
     return render_template('score.html', message=message, feedback=feedback, total_score=total_score)
 
 if __name__ == "__main__":
-    import os
-
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
     app.run(debug=True)

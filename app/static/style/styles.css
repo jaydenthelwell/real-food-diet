@@ -1,0 +1,25 @@
+body {
+  background-color: #B6C471;
+}
+
+.ingredient-list {
+  width: 200px; /* Set the width of the select box */
+  padding: 5px; /* Add padding */
+  font-size: 16px; /* Set font size */
+}
+
+/* Style the options */
+.ingredient-list option {
+  background-color: #f9f9f9; /* Light grey background color */
+  padding: 6px 10px; /* Add padding */
+  border: none; /* Remove border */
+}
+
+/* Style when an option is hovered */
+.ingredient-list option:hover {
+  background-color: #e9e9e9; /* Darker grey background color */
+}
+
+.welcome {
+  color: rgb(0, 0, 0);
+}
