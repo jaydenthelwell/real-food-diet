@@ -300,9 +300,9 @@ def calculate_calorie_score(total_calories, gender, age, activity_level):
     else:
         difference = min(calorie_range) - total_calories
         if difference < 0:
-            score =  max_score - (difference / 10)
+            score = max(0, max_score - (abs(difference) / 10))
         else:
-            score = max_score - ((difference / 10) * -1)
+            score = max(0, max_score - ((difference / 10) * -1))
         return min(max_score, score)
 
 def calculate_macro_balance_score(protein_percentage, carbohydrates_percentage, fats_percentage):
