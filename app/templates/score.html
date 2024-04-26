@@ -10,13 +10,13 @@
 <body>
     <h1>Scoring time</h1>
     <form action="/score" method="post">
-        <label for="gender">Gender:</label><br>
+        <label for="gender">Gender(M/F):</label><br>
         <input type="text" id="gender" name="gender"><br>
 
         <label for="age">Age:</label><br>
         <input type="text" id="age" name="age"><br>
 
-        <label for="activity_level">Activity Level:</label><br>
+        <label for="activity_level">Activity Level(Sedentary/Moderately Active/Active):</label><br>
         <input type="text" id="activity_level" name="activity_level"><br><br>
 
         <input type="hidden" id="total_calories" name="total_calories" value="{{ total_calories }}">
