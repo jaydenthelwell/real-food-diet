@@ -468,4 +468,4 @@ def score():
     return render_template('score.html', message=message, feedback=feedback, total_score=total_score)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
