@@ -3,11 +3,11 @@ body {
 }
 
 .ingredient-list {
-  width: 400px; /* Set the width of the select box */
-  padding: 5px; /* Add padding */
-  font-size: 16px; /* Set font size */
-  margin: 3rem!important;
-  max-height: 310px;
+  width: 400px;
+  padding: 5px;
+  font-size: 16px;
+  margin: 3rem !important;
+  max-height: 22rem;
   overflow-y: auto;
   margin-bottom: 0 !important;
 }
@@ -37,6 +37,17 @@ body {
 .food-item {
   font-size: 21px;
   margin-bottom: 1.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.food-item:nth-of-type(odd) {
+  background: #F47E57;
+}
+
+.food-item:nth-of-type(even) {
+  background: #F7D797;
 }
 
 .welcome {
