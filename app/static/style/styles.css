@@ -71,3 +71,9 @@ body {
 .title {
   margin: 3rem;
 }
+
+@media only screen and (max-width: 950px) {
+  .food-image {
+    right: -75px;
+  }
+}
