@@ -1,11 +1,15 @@
 body {
-  background-color: #B6C471;
+  background-color: #B6C471!important;
 }
 
 .ingredient-list {
-  width: 200px; /* Set the width of the select box */
+  width: 400px; /* Set the width of the select box */
   padding: 5px; /* Add padding */
   font-size: 16px; /* Set font size */
+  margin: 3rem!important;
+  max-height: 310px;
+  overflow-y: auto;
+  margin-bottom: 0 !important;
 }
 
 /* Style the options */
@@ -15,11 +19,44 @@ body {
   border: none; /* Remove border */
 }
 
+.ingredient-weight {
+  margin: 1rem 3rem 3rem 3rem !important;
+}
+
 /* Style when an option is hovered */
 .ingredient-list option:hover {
   background-color: #e9e9e9; /* Darker grey background color */
 }
 
+.food-image {
+  position: absolute;
+  right: 0;
+  width: 50%;
+}
+
+.food-item {
+  font-size: 21px;
+  margin-bottom: 1.5rem;
+}
+
 .welcome {
-  color: rgb(0, 0, 0);
+  font-family: "Abril Fatface", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #002F15;
+  margin: 0;
+  font-size: 6em;
+}
+
+.select-ingredient {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #002F15;
+  font-size: 2em;
+}
+
+.title {
+  margin: 3rem;
 }

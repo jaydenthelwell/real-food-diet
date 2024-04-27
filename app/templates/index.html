@@ -5,39 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Real Food App</title>
 </head>
 <body>
-    <h1 class="welcome">Welcome to Real Food</h1>
+  <div class="d-flex flex-row ">
+    <div class="ingredients-list">
+      <div class="title">
+        <h1 class="welcome">Real Food</h1>
+        <h3 class="select-ingredient">Select the ingredients you want to add:</h3><br>
+      </div>
+      <form action="/" method="post">
+            <!-- <label for="meal_name">Meal Name:</label><br>
+            <input type="text" id="meal_name" name="meal_name"><br> -->
 
-    <form action="/" method="post">
-        <!-- <label for="meal_name">Meal Name:</label><br>
-        <input type="text" id="meal_name" name="meal_name"><br> -->
-
-        <label for="ingredient">Select Ingredient you want to add:</label><br>
         <div class="ingredient-list">
-            {% for food_item in food_items %}
-                <label><input type="radio" name="ingredient" value="{{ food_item }}"> {{ food_item }}</label><br>
-            {% endfor %}
+          {% for food_item in food_items %}
+              <label class="food-item"><input type="radio" name="ingredient" value="{{ food_item }}"> {{ food_item }}</label><br>
+          {% endfor %}
         </div><br>
 
-        <label for="weight">Ingredient Weight (grams):</label><br>
+      <div class="ingredient-weight">
+        <label for="weight">Enter the ingredient weight in grams:</label><br>
         <input type="text" id="weight" name="weight"><br><br>
 
         <input type="submit" value="Add Ingredient">
-    </form>
-
-    <h2>Ingredients:</h2>
-    <ul>
-        {% for ingredient in ingredients %}
-            <li>{{ ingredient.name }} - Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }} <a href="/remove_ingredient/{{ loop.index }}">Remove</a></li>
-        {% endfor %}
-    </ul>
-
-    <form action="/create_meal" method="post">
-      <label for="meal_name">Meal Name:</label><br>
-      <input type="text" id="meal_name" name="meal_name"><br>
-      <input type="submit" value="Create Meal">
-  </form>
+      </form>
+        <h2>Ingredients:</h2>
+        <ul>
+            {% for ingredient in ingredients %}
+                <li>{{ ingredient.name }} - Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }} <a href="/remove_ingredient/{{ loop.index }}">Remove</a></li>
+            {% endfor %}
+        </ul>
+        <form action="/create_meal" method="post">
+          <label for="meal_name">Meal Name:</label><br>
+          <input type="text" id="meal_name" name="meal_name"><br>
+          <input type="submit" value="Create Meal">
+        </form>
+      </div>
+    </div>
+    <div>
+      <img class="food-image" src="../static/style/images/food_images.png" alt="Various animated foods">
+    </div>
+  </div>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCk+5KVcFYiKb8Zangj2+2jqX8WBkEU5alFj" crossorigin="anonymous"></script>
 </body>
 </html>
