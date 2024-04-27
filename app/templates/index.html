@@ -17,7 +17,8 @@
     <div class="ingredients-list">
       <div class="title">
         <h1 class="welcome">Real Food</h1>
-        <h3 class="select-ingredient">Select the ingredients you want to add:</h3><br>
+        <h3 class="select-ingredient">Create a meal by selecting ingredients below:</h3><br>
+        <p class="select-ingredient" style="font-size: initial;">Make sure to enter the weight of each ingredient.</p><br>
       </div>
       <form action="/" method="post">
             <!-- <label for="meal_name">Meal Name:</label><br>
@@ -30,22 +31,24 @@
         </div><br>
 
       <div class="ingredient-weight">
-        <label for="weight">Enter the ingredient weight in grams:</label><br>
-        <input type="text" id="weight" name="weight"><br><br>
+        <label class="select-ingredient" for="weight">Enter the ingredient weight in grams:</label><br>
+        <input class="food-item"  style="background-color:  #F7D797; border-width: 0;" type="text" id="weight" name="weight"><br><br>
 
-        <input type="submit" value="Add Ingredient">
+        <input class="buttons" type="submit" value="Add Ingredient">
       </form>
-        <h2>Ingredients:</h2>
-        <ul>
-            {% for ingredient in ingredients %}
-                <li>{{ ingredient.name }} - Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }} <a href="/remove_ingredient/{{ loop.index }}">Remove</a></li>
-            {% endfor %}
-        </ul>
-        <form action="/create_meal" method="post">
-          <label for="meal_name">Meal Name:</label><br>
-          <input type="text" id="meal_name" name="meal_name"><br>
-          <input type="submit" value="Create Meal">
-        </form>
+        <div class="ingredients-added">
+          <h2 class="select-ingredient">Ingredients Added:</h2>
+          <ul>
+              {% for ingredient in ingredients %}
+                  <li>{{ ingredient.name }} - Calories: {{ ingredient.calories }}, Protein: {{ ingredient.protein }}, Carbohydrates: {{ ingredient.carbohydrates }}, Fats: {{ ingredient.fats }} <a href="/remove_ingredient/{{ loop.index }}">Remove</a></li>
+              {% endfor %}
+          </ul>
+          <form action="/create_meal" method="post">
+            <label class="select-ingredient" style="font-size: initial;" for="meal_name">Meal Name:</label><br>
+            <input class="food-item"  style="background-color:  #F7D797; border-width: 0;" type="text" id="meal_name" name="meal_name"><br>
+            <input class="buttons" type="submit" value="Create Meal">
+          </form>
+        </div>
       </div>
     </div>
     <div>

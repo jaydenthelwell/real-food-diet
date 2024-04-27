@@ -295,14 +295,15 @@ def recommended_calories(gender, age, activity_level, total_calories):
 def calculate_calorie_score(total_calories, gender, age, activity_level):
     recommended, calorie_range = recommended_calories(gender, age, activity_level, total_calories)
     max_score = 20
-    if recommended:
+
+    if total_calories >= min(calorie_range) and total_calories <= max(calorie_range):
         return max_score
     else:
-        difference =  total_calories - min(calorie_range)
-        if difference < 0:
-            score =  max_score - (abs(difference) / 10)
+        if total_calories < min(calorie_range):
+            difference = min(calorie_range) - total_calories
         else:
-            score = max_score - ((abs(difference) / 10) * -1)
+            difference = total_calories - max(calorie_range)
+        score = max_score - (difference / 10)
         return max(0, score)
 
 def calculate_macro_balance_score(protein_percentage, carbohydrates_percentage, fats_percentage):
@@ -388,8 +389,10 @@ def calculate_micro_nutrient_score():
         return round(total_score)
 
 def generate_feedback(calorie_score, macro_balance_score, micro_nutrient_score):
+    total_calories = calculate_calories()
     feedback_message = (
         f"Your calorie score is {calorie_score}\n/20. "
+        f"Total Calories: {total_calories}. "
         f"Your macro balance score is {macro_balance_score}\n/15. "
         f"Your micro nutrient score is {micro_nutrient_score}/15. "
     )
