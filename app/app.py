@@ -438,6 +438,8 @@ def index():
             ingredients.append(adjusted_ingredient)
         else:
             print("Ingredient not found")
+    elif request.method == 'GET' and not request.args.get('remove'):
+        ingredients = []
 
     return render_template('index.html', food_items=food_list(), ingredients=ingredients)
 
@@ -459,7 +461,7 @@ def remove_ingredient(index):
     index -= 1
     if index >= 0 and index < len(ingredients):
         ingredients.pop(index)
-    return redirect(url_for('index'))
+    return redirect(url_for('index', remove=True))
 
 @app.route('/view_meals')
 def view_meals():
