@@ -317,17 +317,19 @@ def calculate_macro_balance_score(protein_percentage, carbohydrates_percentage, 
     if protein_percentage >= 35:
         macro_balance_score += 5
     elif 25 <= protein_percentage < 35:
-        macro_balance_score += 3
+        macro_balance_score += 4
     elif 20 <= protein_percentage < 25:
-        macro_balance_score += 2
+        macro_balance_score += 3
     elif 15 <= protein_percentage < 20:
-        macro_balance_score += 1
+        macro_balance_score += 2
     elif protein_percentage < 15:
+        macro_balance_score += 1
+    elif protein_percentage == 0:
         macro_balance_score += 0
 
     if carbohydrates_percentage > 55:
         macro_balance_score += 2
-    elif 45 <= carbohydrates_percentage <= 55:
+    elif 45 < carbohydrates_percentage <= 55:
         macro_balance_score += 4
     elif 30 <= carbohydrates_percentage <= 45:
         macro_balance_score += 5
@@ -348,7 +350,7 @@ def calculate_macro_balance_score(protein_percentage, carbohydrates_percentage, 
         macro_balance_score += 3
     elif 10 <= fats_percentage < 15:
         macro_balance_score += 2
-    else:
+    elif fats_percentage < 10:
         macro_balance_score += 0
 
     return macro_balance_score
@@ -536,6 +538,8 @@ def score():
         message += f"\nProtein Percentage: {protein_percentage}%\nYou may need to increase your protein intake for better muscle repair and growth. Score: 2/5"
     elif protein_percentage < 15:
         message += f"\nProtein Percentage: {protein_percentage}%\nYour protein intake is lower than recommended. Increasing it is advisable for muscle repair and growth. Score: 1/5"
+    else:
+        message += f"\Protein Percentage: {protein_percentage}%\nYour protein intake is too low. You need to increase it. Score: 0/5"
 
     if carbohydrates_percentage > 55:
         message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYou have exceeded your carbohydrate target. It's recommended to reduce your carb intake. Score: 2/5"
@@ -547,8 +551,8 @@ def score():
         message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYou might consider increasing your carb intake slightly. Score: 3/5"
     elif 15 < carbohydrates_percentage <= 20:
         message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYour carb intake is lower than recommended. You may need to increase it. Score: 1/5"
-    else:
-        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYour carb intake istoo low. You need to increase it. Score: 0/5"
+    elif carbohydrates_percentage < 15:
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYour carb intake is too low. You need to increase it. Score: 0/5"
 
     if fats_percentage > 45:
         message += f"\nFats Percentage: {fats_percentage}%\nYour meal contains a high amount of fats. Consider reducing your fat intake. Score: 1/5"
@@ -558,9 +562,9 @@ def score():
         message += f"\nFats Percentage: {fats_percentage}%\nThis meal contains an optimal amount of healthy fats. Score: 4/5"
     elif 15 <= fats_percentage < 20:
         message += f"\nFats Percentage: {fats_percentage}%\nConsider increasing your healthy fat intake slightly. Score: 3/5"
-    elif fats_percentage < 15:
+    elif 10 <= fats_percentage < 15:
         message += f"\nFats Percentage: {fats_percentage}%\nYour fat intake is lower than recommended. Consider adding more healthy fats. Score: 2/5"
-    else:
+    elif fats_percentage < 10:
         message += f"\nFats Percentage: {fats_percentage}%\nYour fat intake is 0. You may need to increase it. Score: 0/5"
 
     # Calculate calorie score
