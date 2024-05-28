@@ -506,10 +506,15 @@ def score():
 
     # Calculate total macros percentage
     total_macros = total_protein + total_carbohydrates + total_fats
-    protein_percentage = round((total_protein / total_macros) * 100, 1)
-    carbohydrates_percentage = round((total_carbohydrates / total_macros) * 100, 1)
-    fats_percentage = round((total_fats / total_macros) * 100, 1)
 
+    if (total_carbohydrates or total_protein or total_fats) > 0:
+        protein_percentage = round((total_protein / total_macros) * 100, 1)
+        carbohydrates_percentage = round((total_carbohydrates / total_macros) * 100, 1)
+        fats_percentage = round((total_fats / total_macros) * 100, 1)
+    else:
+        protein_percentage = 0
+        carbohydrates_percentage = 0
+        fats_percentage = 0
     message = ""
 
     if recommended:
