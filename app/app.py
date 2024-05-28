@@ -1,4 +1,7 @@
 import os
+# import matplotlib.pyplot as plt
+# import numpy as np
+
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__, static_url_path='/static')
 
@@ -295,9 +298,11 @@ def recommended_calories(gender, age, activity_level, total_calories):
 def calculate_calorie_score(total_calories, gender, age, activity_level):
     recommended, calorie_range = recommended_calories(gender, age, activity_level, total_calories)
     max_score = 20
+    message = ""
 
     if total_calories >= min(calorie_range) and total_calories <= max(calorie_range):
-        return max_score
+        message = "Your meal is within the recommended calorie range."
+        return max_score, message
     else:
         if total_calories < min(calorie_range):
             difference = min(calorie_range) - total_calories
@@ -314,15 +319,17 @@ def calculate_macro_balance_score(protein_percentage, carbohydrates_percentage, 
     elif 25 <= protein_percentage < 35:
         macro_balance_score += 3
     elif 20 <= protein_percentage < 25:
-        macro_balance_score += 2.5
-    elif 15 <= protein_percentage < 20:
         macro_balance_score += 2
+    elif 15 <= protein_percentage < 20:
+        macro_balance_score += 1
     elif protein_percentage < 15:
         macro_balance_score += 0
 
     if carbohydrates_percentage > 55:
         macro_balance_score += 2
-    elif 30 <= carbohydrates_percentage <= 55:
+    elif 45 <= carbohydrates_percentage <= 55:
+        macro_balance_score += 4
+    elif 30 <= carbohydrates_percentage <= 45:
         macro_balance_score += 5
     elif 20 <= carbohydrates_percentage < 30:
         macro_balance_score += 3
@@ -331,15 +338,17 @@ def calculate_macro_balance_score(protein_percentage, carbohydrates_percentage, 
     elif carbohydrates_percentage < 15:
         macro_balance_score += 0
 
-    if fats_percentage > 35:
-        macro_balance_score += 2
-    elif 28 <= fats_percentage <= 35:
-        macro_balance_score += 4
-    elif 20 <= fats_percentage < 28:
+    if fats_percentage > 45:
+        macro_balance_score += 1
+    elif 28 <= fats_percentage <= 45:
         macro_balance_score += 5
+    elif 20 <= fats_percentage < 28:
+        macro_balance_score += 4
     elif 15 <= fats_percentage < 20:
         macro_balance_score += 3
-    elif fats_percentage < 15:
+    elif 10 <= fats_percentage < 15:
+        macro_balance_score += 2
+    else:
         macro_balance_score += 0
 
     return macro_balance_score
@@ -481,10 +490,21 @@ def get_user_info():
     total_calories = float(request.form['total_calories'])
     recommended, calorie_range = recommended_calories(gender, age, activity_level, total_calories)
 
+    return render_template('get_user_info.html')
+
+@app.route('/score', methods=['POST'])
+def score():
+    gender = request.form['gender'].strip().upper()
+    age = request.form['age']
+    activity_level = request.form['activity_level'].strip().lower()
+    total_calories = calculate_calories()
+    recommended, calorie_range = recommended_calories(gender, age, activity_level, total_calories)
+    # Calculate total macro-nutrients
     total_protein = calculate_protein()
     total_carbohydrates = calculate_carbohydrates()
     total_fats = calculate_fats()
 
+    # Calculate total macros percentage
     total_macros = total_protein + total_carbohydrates + total_fats
     protein_percentage = round((total_protein / total_macros) * 100, 1)
     carbohydrates_percentage = round((total_carbohydrates / total_macros) * 100, 1)
@@ -501,66 +521,42 @@ def get_user_info():
         elif difference > 0:
             message = f"Your meal is not within the recommended calorie range. You need to add {difference} calories."
 
-    if protein_percentage < 35:
-        message += f"\nProtein Percentage: {protein_percentage}%\n{35 - protein_percentage} more grams of protein to hit the target for protein intake in this meal. "
+    if protein_percentage >= 35:
+        message += f"\nProtein Percentage: {protein_percentage}%\nThis meal contains a good amount of protein, contributing to muscle repair and growth. Score: 5/5"
+    elif 25 <= protein_percentage < 35:
+        message += f"\nProtein Percentage: {protein_percentage}%\nIncreasing protein intake slightly could be beneficial for muscle repair and growth. Score: 4/5"
+    elif 20 <= protein_percentage < 25:
+        message += f"\nProtein Percentage: {protein_percentage}%\nConsider increasing your protein intake for better muscle repair and growth. Score: 3/5"
+    elif 15 <= protein_percentage < 20:
+        message += f"\nProtein Percentage: {protein_percentage}%\nYou may need to increase your protein intake for better muscle repair and growth. Score: 2/5"
+    elif protein_percentage < 15:
+        message += f"\nProtein Percentage: {protein_percentage}%\nYour protein intake is lower than recommended. Increasing it is advisable for muscle repair and growth. Score: 1/5"
+
+    if carbohydrates_percentage > 55:
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYou have exceeded your carbohydrate target. It's recommended to reduce your carb intake. Score: 2/5"
+    elif 45 < carbohydrates_percentage <= 55:
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nThis is a good amount of carbs for maintaining your energy levels. Score: 4/5"
+    elif 30 < carbohydrates_percentage <= 45:
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nThis is an optimal amount of carbs for a balanced diet. Score: 5/5"
+    elif 20 < carbohydrates_percentage <= 30:
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYou might consider increasing your carb intake slightly. Score: 3/5"
+    elif 15 < carbohydrates_percentage <= 20:
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYour carb intake is lower than recommended. You may need to increase it. Score: 1/5"
     else:
-        message += f"\nProtein Percentage: {protein_percentage}%\n. This is a healthy amount of protein. "
+        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYour carb intake istoo low. You need to increase it. Score: 0/5"
 
-    if carbohydrates_percentage > 45:
-        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYou have gone over you carbohydrate target, consider balancing your meal out with more protein. "
+    if fats_percentage > 45:
+        message += f"\nFats Percentage: {fats_percentage}%\nYour meal contains a high amount of fats. Consider reducing your fat intake. Score: 1/5"
+    elif 28 <= fats_percentage <= 45:
+        message += f"\nFats Percentage: {fats_percentage}%\nThis meal contains a good amount of healthy fats. Score: 5/5"
+    elif 20 <= fats_percentage < 28:
+        message += f"\nFats Percentage: {fats_percentage}%\nThis meal contains an optimal amount of healthy fats. Score: 4/5"
+    elif 15 <= fats_percentage < 20:
+        message += f"\nFats Percentage: {fats_percentage}%\nConsider increasing your healthy fat intake slightly. Score: 3/5"
+    elif fats_percentage < 15:
+        message += f"\nFats Percentage: {fats_percentage}%\nYour fat intake is lower than recommended. Consider adding more healthy fats. Score: 2/5"
     else:
-        message += f"\nCarb Percentage: {carbohydrates_percentage}%\n. This is a healthy amount of carbs. "
-
-    if fats_percentage < 20:
-        message += f"\nFats Percentage: {fats_percentage}%\n{20 - fats_percentage} more grams of fats to hit the target for fat intake in this meal. Consider adding some more healthy fats. "
-    else:
-        message += f"\nFats Percentage: {fats_percentage}%\n. This is a healthy amount of fats. "
-
-    return render_template('get_user_info.html', message=message)
-
-@app.route('/score', methods=['POST'])
-def score():
-    gender = request.form['gender'].strip().upper()
-    age = request.form['age']
-    activity_level = request.form['activity_level'].strip().lower()
-    total_calories = calculate_calories()
-    recommended, calorie_range = recommended_calories(gender, age, activity_level, total_calories)
-    # Calculate total macro-nutrients
-    total_protein = calculate_protein()
-    total_carbohydrates = calculate_carbohydrates()
-    total_fats = calculate_fats()
-
-    # Calculate total macros percentage
-    total_macros = total_protein + total_carbohydrates + total_fats
-    protein_percentage = (total_protein / total_macros) * 100
-    carbohydrates_percentage = (total_carbohydrates / total_macros) * 100
-    fats_percentage = (total_fats / total_macros) * 100
-
-    message = ""
-
-    if recommended:
-        message = "Your meal is within the recommended calorie range."
-    else:
-        difference = min(calorie_range) - total_calories
-        if difference < 0:
-            message = f"Your meal is not within the recommended calorie range. You need to remove {difference * -1} calories."
-        elif difference > 0:
-            message = f"Your meal is not within the recommended calorie range. You need to add {difference} calories."
-
-    if protein_percentage < 35:
-        message += f"\nProtein Percentage: {protein_percentage}%\n{35 - protein_percentage} more grams of protein to hit the target for protein intake in this meal. "
-    else:
-        message += f"\nProtein Percentage: {protein_percentage}%\n. This is a healthy amount of protein. "
-
-    if carbohydrates_percentage > 45:
-        message += f"\nCarb Percentage: {carbohydrates_percentage}%\nYou have gone over you carbohydrate target, consider balancing your meal out with more protein. "
-    else:
-        message += f"\nCarb Percentage: {carbohydrates_percentage}%\n. This is a healthy amount of carbs. "
-
-    if fats_percentage < 20:
-        message += f"\nFats Percentage: {fats_percentage}%\n{20 - fats_percentage} more grams of fats to hit the target for fat intake in this meal. Consider adding some more healthy fats. "
-    else:
-        message += f"\nFats Percentage: {fats_percentage}%\n. This is a healthy amount of fats. "
+        message += f"\nFats Percentage: {fats_percentage}%\nYour fat intake is 0. You may need to increase it. Score: 0/5"
 
     # Calculate calorie score
     calorie_score = calculate_calorie_score(total_calories, gender, age, activity_level)
