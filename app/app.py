@@ -5,7 +5,6 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__, static_url_path='/static')
 
-app = Flask(__name__)
 class FoodItem():
     def __init__(self, name, weight, calories, protein, carbohydrates, fats, vitamin_a, vitamin_c, vitamin_d, vitamin_e, vitamin_k, calcium, iron, magnesium, phosphorus, potassium, sodium, zinc):
         self.name = name
@@ -587,4 +586,4 @@ def score():
     return render_template('score.html', message=message, feedback=feedback, total_score=total_score)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 5001)))
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
